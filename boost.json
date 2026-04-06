@@ -1,0 +1,10 @@
+{
+    "agents": [
+        "copilot",
+        "gemini"
+    ],
+    "guidelines": true,
+    "packages": [
+        "laravel/ai"
+    ]
+}
