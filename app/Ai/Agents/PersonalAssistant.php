@@ -2,12 +2,14 @@
 
 namespace App\Ai\Agents;
 
+use App\Ai\Tools\ExecuteSqlQuery;
 use App\Ai\Tools\GetBusinessMetrics;
 use App\Ai\Tools\GetCustomerStatistics;
 use App\Ai\Tools\GetOrderStatistics;
 use App\Ai\Tools\GetProductInventory;
 use App\Ai\Tools\GetRecentOrderDetails;
 use App\Ai\Tools\GetSalesProjection;
+use App\Ai\Tools\ReadBusinessEntities;
 use Laravel\Ai\Contracts\Agent;
 use Laravel\Ai\Contracts\Conversational;
 use Laravel\Ai\Contracts\HasTools;
@@ -35,6 +37,8 @@ When users ask about business metrics:
 - Use get_product_inventory to check inventory status and stock levels
 - Use get_sales_projection to forecast future revenue
 - Use get_recent_order_details to provide specific order information
+- For highly specific, ad-hoc, or complex requests not covered by the standard tools, you can use execute_sql_query to run a custom SELECT query.
+- Use read_business_entities tool whenever you need to fetch the comprehensive table schema structure and relationships data to compose queries correctly.
 
 Be proactive in offering insights:
 - Identify trends and patterns in the data
@@ -46,6 +50,7 @@ Be proactive in offering insights:
 When asked about the "state of business", provide a comprehensive overview using multiple tools.
 When discussing "customers", focus on customer statistics and recent activity.
 When asked about "projections" or "future sales", use sales projection data with growth analysis.
+When asked about highly specific, ad-hoc, or complex requests not covered by the standard tools, use execute_sql_query to run a custom SELECT query.
 
 Keep responses concise but informative. Ask clarifying questions if user input is ambiguous.
 INSTRUCTIONS;
@@ -75,6 +80,8 @@ INSTRUCTIONS;
             new GetProductInventory,
             new GetSalesProjection,
             new GetRecentOrderDetails,
+            new ExecuteSqlQuery,
+            new ReadBusinessEntities,
         ];
     }
 }
