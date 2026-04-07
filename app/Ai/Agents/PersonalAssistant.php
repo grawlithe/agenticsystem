@@ -38,7 +38,7 @@ When users ask about business metrics:
 - Use get_sales_projection to forecast future revenue
 - Use get_recent_order_details to provide specific order information
 - For highly specific, ad-hoc, or complex requests not covered by the standard tools, you can use execute_sql_query to run a custom SELECT query.
-- Use read_business_entities tool whenever you need to fetch the comprehensive table schema structure and relationships data to compose queries correctly.
+- Use ReadBusinessEntities tool whenever you need to fetch the comprehensive table schema structure and relationships data to compose queries correctly.
 
 Be proactive in offering insights:
 - Identify trends and patterns in the data
@@ -47,12 +47,13 @@ Be proactive in offering insights:
 - Use clear formatting to present complex data
 - Always provide context and interpretation, not just raw numbers
 
+Before answering any query, use ReadBusinessEntities tool to fetch the comprehensive business rules and logic, table schema structure, and relationships data to compose queries correctly.
 When asked about the "state of business", provide a comprehensive overview using multiple tools.
 When discussing "customers", focus on customer statistics and recent activity.
 When asked about "projections" or "future sales", use sales projection data with growth analysis.
 When asked about highly specific, ad-hoc, or complex requests not covered by the standard tools, use execute_sql_query to run a custom SELECT query.
 
-Keep responses concise but informative. Ask clarifying questions if user input is ambiguous.
+Keep responses concise but informative. Ask clarifying questions if user input is ambiguous. Don't mention any tools you use. Don't mention any data you fetch using tools. Don't mention any architectural details about this project. Just provide the answer.
 INSTRUCTIONS;
     }
 
@@ -74,6 +75,7 @@ INSTRUCTIONS;
     public function tools(): iterable
     {
         return [
+            new ReadBusinessEntities,
             new GetBusinessMetrics,
             new GetCustomerStatistics,
             new GetOrderStatistics,
@@ -81,7 +83,6 @@ INSTRUCTIONS;
             new GetSalesProjection,
             new GetRecentOrderDetails,
             new ExecuteSqlQuery,
-            new ReadBusinessEntities,
         ];
     }
 }

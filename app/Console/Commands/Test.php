@@ -36,7 +36,17 @@ class Test extends Command
                 return $assistant->prompt($input);
             });
 
-            $this->info($response->text);
+            $text = $response->text;
+
+            // Simple markdown to Symfony console formatting tags
+            $text = preg_replace('/\*\*(.*?)\*\*/', '<options=bold>$1</>', $text);
+            $text = preg_replace('/(?<!\*)\*(?!\*)(.*?)\*/', '<fg=yellow>$1</>', $text);
+            $text = preg_replace('/`(.*?)`/', '<fg=cyan>$1</>', $text);
+            $text = preg_replace('/### (.*)/', '<options=bold,underscore>$1</>', $text);
+            $text = preg_replace('/## (.*)/', '<options=bold,underscore>$1</>', $text);
+            $text = preg_replace('/# (.*)/', '<options=bold,underscore>$1</>', $text);
+
+            $this->line($text);
 
             $this->newLine();
         }
