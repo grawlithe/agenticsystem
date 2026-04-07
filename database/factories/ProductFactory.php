@@ -17,9 +17,25 @@ class ProductFactory extends Factory
      */
     public function definition(): array
     {
+        $categories = [
+            'Electronics',
+            'Clothing & Apparel',
+            'Home & Garden',
+            'Sports & Outdoors',
+            'Health & Beauty',
+            'Toys & Games',
+            'Books & Media',
+            'Automotive',
+            'Food & Beverages',
+            'Office Supplies',
+        ];
+
+        $category = fake()->randomElement($categories);
+
         return [
             'sku' => fake()->unique()->bothify('SKU-####??'),
             'name' => fake()->words(3, true),
+            'category' => $category,
             'description' => fake()->paragraph(),
             'price' => fake()->randomFloat(2, 10, 500),
             'stock' => fake()->numberBetween(0, 1000),
