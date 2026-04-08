@@ -20,12 +20,12 @@ class OrderFactory extends Factory
     {
         return [
             'customer_id' => Customer::factory(),
-            'order_number' => 'ORD-'.fake()->unique()->numerify('##########'),
+            'order_number' => 'ORD-' . fake()->unique()->numerify('##########'),
             'total_amount' => fake()->randomFloat(2, 50, 5000),
             'status' => fake()->randomElement(['pending', 'processing', 'shipped', 'delivered', 'cancelled']),
             'notes' => fake()->optional()->paragraph(),
-            'shipped_at' => fake()->optional()->dateTime(),
-            'delivered_at' => fake()->optional()->dateTime(),
+            'shipped_at' => fake()->optional()->dateTimeBetween('2020-01-01', '2026-04-07'),
+            'delivered_at' => fake()->optional()->dateTimeBetween('2020-01-01', '2026-04-07'),
         ];
     }
 }

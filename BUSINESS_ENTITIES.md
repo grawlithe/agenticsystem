@@ -68,6 +68,7 @@ The Enterprise Intelligent Fabric implements three primary business entities:
 | Status | `status` | Enum | Product availability | One of: active, inactive, discontinued |
 | Created Timestamp | `created_at` | Timestamp | Record creation time | Auto-set, Nullable |
 | Updated Timestamp | `updated_at` | Timestamp | Last modification time | Auto-set, Nullable |
+| Risk Profile | `risk_profile` | Enum | Risk profile of the product | One of: low, medium, high. Inferred from customer's order history |
 
 **Model Location**: `app/Models/Product.php`
 
