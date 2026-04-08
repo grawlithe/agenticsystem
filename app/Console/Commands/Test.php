@@ -20,6 +20,7 @@ class Test extends Command
     public function handle()
     {
         $this->newLine();
+        $this->line("===================================================================================================");
 
         $assistant = PersonalAssistant::make();
 
@@ -48,6 +49,7 @@ class Test extends Command
 
             $this->line($text);
 
+            $this->line("===================================================================================================");
             $this->newLine();
         }
     }

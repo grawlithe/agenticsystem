@@ -12,7 +12,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Product extends Model
 {
     /** @use HasFactory<ProductFactory> */
-    use HasFactory;
+    use HasFactory, Concerns\HasEmbedding;
+
+    /**
+     * Build a searchable text representation of the product.
+     */
+    public function toSearchableText(): string
+    {
+        return "Product: {$this->name}. Category: {$this->category}. SKU: {$this->sku}. Description: {$this->description}. Price: {$this->price}. Status: {$this->status}.";
+    }
 
     /**
      * Get all order items for this product.

@@ -10,6 +10,7 @@ use App\Ai\Tools\GetProductInventory;
 use App\Ai\Tools\GetRecentOrderDetails;
 use App\Ai\Tools\GetSalesProjection;
 use App\Ai\Tools\ReadBusinessEntities;
+use App\Ai\Tools\SearchEntities;
 use Laravel\Ai\Contracts\Agent;
 use Laravel\Ai\Contracts\Conversational;
 use Laravel\Ai\Contracts\HasTools;
@@ -37,6 +38,7 @@ When users ask about business metrics:
 - Use get_product_inventory to check inventory status and stock levels
 - Use get_sales_projection to forecast future revenue
 - Use get_recent_order_details to provide specific order information
+- Use search_entities for semantic or conceptual searches (e.g., "products for winter", "high-value items", "loyal customers") when exact keywords might not be enough.
 - For highly specific, ad-hoc, or complex requests not covered by the standard tools, you can use execute_sql_query to run a custom SELECT query.
 - Use ReadBusinessEntities tool whenever you need to fetch the comprehensive table schema structure and relationships data to compose queries correctly.
 
@@ -82,6 +84,7 @@ INSTRUCTIONS;
             new GetProductInventory,
             new GetSalesProjection,
             new GetRecentOrderDetails,
+            new SearchEntities,
             new ExecuteSqlQuery,
         ];
     }

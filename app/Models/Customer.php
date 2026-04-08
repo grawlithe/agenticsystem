@@ -12,7 +12,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Customer extends Model
 {
     /** @use HasFactory<CustomerFactory> */
-    use HasFactory;
+    use HasFactory, Concerns\HasEmbedding;
+
+    /**
+     * Build a searchable text representation of the customer.
+     */
+    public function toSearchableText(): string
+    {
+        return "Customer: {$this->name}. Email: {$this->email}. Phone: {$this->phone}. Location: {$this->city}, {$this->country}. Address: {$this->address}, {$this->postal_code}. Status: {$this->status}.";
+    }
 
     /**
      * Get all orders belonging to this customer.

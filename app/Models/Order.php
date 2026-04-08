@@ -13,7 +13,19 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Order extends Model
 {
     /** @use HasFactory<OrderFactory> */
-    use HasFactory;
+    use HasFactory, Concerns\HasEmbedding;
+
+    /**
+     * Build a searchable text representation of the order.
+     */
+    public function toSearchableText(): string
+    {
+        $items = $this->items()->with('product')->get()->map(function ($item) {
+            return "{$item->quantity}x {$item->product->name}";
+        })->implode(', ');
+
+        return "Order #{$this->order_number}. Customer: {$this->customer->name}. Status: {$this->status}. Total: {$this->total_amount}. Items: {$items}. Notes: {$this->notes}";
+    }
 
     /**
      * Get the customer that placed this order.
