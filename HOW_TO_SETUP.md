@@ -20,10 +20,21 @@ php artisan key:generate
 ```
 
 ### 3. Database Setup
-Configure your database credentials in the `.env` file, then run the database migrations and seeders to populate the database with sample business data:
+
+> [!IMPORTANT]
+> This project requires an **embedding model** (for semantic search capabilities) and a **Vector Database**. 
+> You must use **PostgreSQL** with the **`pgvector`** extension installed and enabled.
+
+Configure your PostgreSQL database credentials in the `.env` file (ensure `DB_CONNECTION=pgsql`), then run the database migrations and seeders to populate the database with sample business data:
 ```bash
 php artisan migrate
 php artisan db:seed
+```
+
+### 4. Create Database Embeddings
+Once your database is seeded and LM Studio actively holds the **Nomic Embed Text** model running on the local server, generate the database vectors so the AI can execute fuzzy semantic matching:
+```bash
+php artisan embeddings:generate
 ```
 
 ---
@@ -32,12 +43,12 @@ php artisan db:seed
 
 To run the AI agent entirely locally, we use LM Studio configured to act as an OpenAI-compatible API endpoint powering the system with the **Gemma 4** model.
 
-### 1. Configure LM Studio
+### 1. Configure LM Studio Base & Embeddings
 1. Download and install [LM Studio](https://lmstudio.ai/).
-2. In LM Studio, search for and download the **Gemma 4** (e.g. `google/gemma-4-e4b`) model.
-3. Navigate to the **Local Server** tab in LM Studio.
-4. Load the Gemma 4 model.
-5. In the **Prompt Format** options, ensure you configure the following Jinja template so the agent's system prompts work correctly with Gemma 4:
+2. In LM Studio, search for and download the **Gemma 4** (e.g. `google/gemma-4-e4b`) model for conversation generation.
+3. Also search for and download the **Nomic Embed Text version 1.5** model (`nomic-embed-text-v1.5`) for semantic database search embeddings.
+4. Navigate to the **Local Server** tab in LM Studio, and load **both** models if your hardware allows multi-model loading (or prepare to swap them depending on the task).
+5. In the **Prompt Format** options for the conversational model, ensure you configure the following Jinja template so the agent's system prompts work correctly with Gemma 4:
    ```jinja
    {{ bos_token }}{% if messages[0]['role'] == 'system' %}{{ '<|start_of_turn|>system\n' + messages[0]['content'] + '<|end_of_turn|>\n' }}{% set loop_messages = messages[1:] %}{% else %}{% set loop_messages = messages %}{% endif %}{% for message in loop_messages %}{% if message['role'] == 'user' %}{{ '<|start_of_turn|>user\n' + message['content'] + '<|end_of_turn|>\n' }}{% elif message['role'] == 'assistant' %}{{ '<|start_of_turn|>model\n' + message['content'] + '<|end_of_turn|>\n' }}{% endif %}{% endfor %}{{ '<|start_of_turn|>model\n' }}
    ```

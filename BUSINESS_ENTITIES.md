@@ -61,6 +61,7 @@ The Enterprise Intelligent Fabric implements three primary business entities:
 | Product ID | `id` | Unsigned Big Integer | Unique identifier | Primary Key, Auto-increment |
 | SKU | `sku` | String | Stock Keeping Unit | Required, Unique, Max 255 chars |
 | Product Name | `name` | String | Display name | Required, Max 255 chars |
+| Category | `category` | String | Product category | Required, Max 255 chars |
 | Description | `description` | Text | Detailed product info | Optional, Max 65535 chars |
 | Unit Price | `price` | Decimal | Price per unit | Required, 10 digits, 2 decimal places |
 | Inventory Stock | `stock` | Integer | Current quantity available | Required, Minimum 0 |

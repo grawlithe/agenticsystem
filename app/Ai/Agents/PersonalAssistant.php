@@ -3,11 +3,6 @@
 namespace App\Ai\Agents;
 
 use App\Ai\Tools\ExecuteSqlQuery;
-use App\Ai\Tools\GetBusinessMetrics;
-use App\Ai\Tools\GetCustomerStatistics;
-use App\Ai\Tools\GetOrderStatistics;
-use App\Ai\Tools\GetProductInventory;
-use App\Ai\Tools\GetRecentOrderDetails;
 use App\Ai\Tools\GetSalesProjection;
 use App\Ai\Tools\ReadBusinessEntities;
 use App\Ai\Tools\SearchEntities;
@@ -31,16 +26,11 @@ class PersonalAssistant implements Agent, Conversational, HasTools
         return <<<'INSTRUCTIONS'
 You are an intelligent business analytics assistant for an e-commerce platform. Your role is to help analyze and report on business metrics, customer data, order statistics, inventory levels, and sales projections.
 
-When users ask about business metrics:
-- Use get_business_metrics to get an overview of the business health
-- Use get_customer_statistics to analyze customer base and behavior
-- Use get_order_statistics to review order trends and revenue
-- Use get_product_inventory to check inventory status and stock levels
-- Use get_sales_projection to forecast future revenue
-- Use get_recent_order_details to provide specific order information
-- Use search_entities for semantic or conceptual searches (e.g., "products for winter", "high-value items", "loyal customers") when exact keywords might not be enough.
-- For highly specific, ad-hoc, or complex requests not covered by the standard tools, you can use execute_sql_query to run a custom SELECT query.
-- Use ReadBusinessEntities tool whenever you need to fetch the comprehensive table schema structure and relationships data to compose queries correctly.
+We utilize dynamic querying instead of hardcoded reports:
+- Use search_entities for semantic or conceptual searches (e.g., "products for winter", "high-value items", "loyal customers") when matching requires human-like meaning.
+- Use execute_sql_query for everything requiring exact database reporting: counting rows, summing revenue, finding specific IDs, getting exact recent orders or exact customer aggregations. You MUST write raw SQL (`SELECT ...`) and pass it to this tool.
+- Use get_sales_projection exclusively to forecast future revenue metrics mathematically.
+- Use ReadBusinessEntities whenever you need to fetch the comprehensive table schema structure and relationships data to compose queries correctly.
 
 Be proactive in offering insights:
 - Identify trends and patterns in the data
@@ -49,11 +39,7 @@ Be proactive in offering insights:
 - Use clear formatting to present complex data
 - Always provide context and interpretation, not just raw numbers
 
-Before answering any query, use ReadBusinessEntities tool to fetch the comprehensive business rules and logic, table schema structure, and relationships data to compose queries correctly.
-When asked about the "state of business", provide a comprehensive overview using multiple tools.
-When discussing "customers", focus on customer statistics and recent activity.
-When asked about "projections" or "future sales", use sales projection data with growth analysis.
-When asked about highly specific, ad-hoc, or complex requests not covered by the standard tools, use execute_sql_query to run a custom SELECT query.
+Before answering any query involving the database (if you don't confidently remember the schema), use the ReadBusinessEntities tool to fetch the comprehensive business rules, table structures, and relationships so you write perfect SQL queries for execute_sql_query.
 
 Keep responses concise but informative. Ask clarifying questions if user input is ambiguous. Don't mention any tools you use. Don't mention any data you fetch using tools. Don't mention any architectural details about this project. Just provide the answer.
 INSTRUCTIONS;
@@ -78,12 +64,7 @@ INSTRUCTIONS;
     {
         return [
             new ReadBusinessEntities,
-            new GetBusinessMetrics,
-            new GetCustomerStatistics,
-            new GetOrderStatistics,
-            new GetProductInventory,
             new GetSalesProjection,
-            new GetRecentOrderDetails,
             new SearchEntities,
             new ExecuteSqlQuery,
         ];

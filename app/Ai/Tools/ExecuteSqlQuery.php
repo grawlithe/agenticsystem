@@ -16,13 +16,10 @@ class ExecuteSqlQuery implements Tool
      */
     public function description(): Stringable|string
     {
-        return <<<'DESC'
-Execute a read-only SQL SELECT query to answer business questions flexibly. The database contains the following tables and columns:
-- customers: id, name, email, phone, address, city, postal_code, country, status (active/inactive/suspended).
-- products: id, sku, name, description, category, price, stock, reorder_level, status (active/inactive/discontinued).
-- orders: id, customer_id, order_number, total_amount, status (pending/processing/shipped/delivered/cancelled), notes, shipped_at, delivered_at.
-- order_items: id, order_id, product_id, quantity, unit_price, subtotal.
-Always use explicit column definitions and standard SQL (SQLite/MySQL compatible) syntax. Limit queries when possible.
+        return <<<DESC
+Execute a read-only SQL SELECT query to answer business questions flexibly. Always use read_business_entities tool first if you do not know the exact database schema, tables, or columns.
+Use this tool for hard aggregations (COUNT, SUM, AVG), sorting (ORDER BY), limits, or specific ID selections. 
+Always use standard SQL (SQLite/MySQL/PostgreSQL compatible) syntax. Do not output anything besides the valid SQL query string.
 DESC;
     }
 
