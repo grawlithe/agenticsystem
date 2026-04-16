@@ -4,13 +4,14 @@ namespace App\Console\Commands;
 
 use App\Models\Customer;
 use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Product;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 
 #[Signature('embeddings:generate')]
-#[Description('Generate embeddings for all Products, Customers, and Orders using the Nomic local model.')]
+#[Description('Generate embeddings for all Products, Customers, Orders, and Order Items using the Nomic local model.')]
 class GenerateEmbeddingsCommand extends Command
 {
     /**
@@ -21,6 +22,7 @@ class GenerateEmbeddingsCommand extends Command
         $this->generateFor(Product::class, 'Products');
         $this->generateFor(Customer::class, 'Customers');
         $this->generateFor(Order::class, 'Orders');
+        $this->generateFor(OrderItem::class, 'Order Items');
 
         $this->info('All embeddings generated successfully!');
     }
@@ -37,6 +39,7 @@ class GenerateEmbeddingsCommand extends Command
 
         if ($count === 0) {
             $this->warn("No {$label} found.");
+
             return;
         }
 

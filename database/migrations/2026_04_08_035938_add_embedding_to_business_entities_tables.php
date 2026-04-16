@@ -22,6 +22,10 @@ return new class extends Migration
         Schema::table('orders', function (Blueprint $table) {
             $table->vector('embedding', 768)->nullable();
         });
+
+        Schema::table('order_items', function (Blueprint $table) {
+            $table->vector('embedding', 768)->nullable();
+        });
     }
 
     /**
@@ -38,6 +42,10 @@ return new class extends Migration
         });
 
         Schema::table('orders', function (Blueprint $table) {
+            $table->dropColumn('embedding');
+        });
+
+        Schema::table('order_items', function (Blueprint $table) {
             $table->dropColumn('embedding');
         });
     }

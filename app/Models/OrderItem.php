@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Fillable(['order_id', 'product_id', 'quantity', 'unit_price', 'subtotal'])]
+#[Fillable(['order_id', 'product_id', 'quantity', 'unit_price', 'subtotal', 'embedding'])]
 class OrderItem extends Model
 {
     /** @use HasFactory<OrderItemFactory> */
-    use HasFactory;
+    use Concerns\HasEmbedding, HasFactory;
 
     /**
      * Get the order this item belongs to.
@@ -28,6 +28,17 @@ class OrderItem extends Model
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
+    }
+
+    /**
+     * Build a searchable text representation of this order item.
+     */
+    public function toSearchableText(): string
+    {
+        $productName = $this->product?->name ?? 'Unknown Product';
+        $productCategory = $this->product?->category ?? 'Unknown Category';
+
+        return "Order Item: {$productName}. Category: {$productCategory}. Quantity: {$this->quantity}. Unit Price: {$this->unit_price}. Subtotal: {$this->subtotal}. Order ID: {$this->order_id}.";
     }
 
     /**

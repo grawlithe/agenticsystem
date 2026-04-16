@@ -6,6 +6,8 @@ use App\Ai\Agents\PersonalAssistant;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
+use Laravel\Ai\Messages\AssistantMessage;
+use Laravel\Ai\Messages\UserMessage;
 
 use function Laravel\Prompts\task;
 use function Laravel\Prompts\text;
@@ -20,7 +22,7 @@ class Test extends Command
     public function handle()
     {
         $this->newLine();
-        $this->line("===================================================================================================");
+        $this->line('===================================================================================================');
 
         $assistant = PersonalAssistant::make();
 
@@ -37,6 +39,10 @@ class Test extends Command
                 return $assistant->prompt($input);
             });
 
+            // Retain conversational history inside the agent
+            $assistant->chatHistory[] = new UserMessage($input);
+            $assistant->chatHistory[] = new AssistantMessage($response->text);
+
             $text = $response->text;
 
             // Simple markdown to Symfony console formatting tags
@@ -49,7 +55,7 @@ class Test extends Command
 
             $this->line($text);
 
-            $this->line("===================================================================================================");
+            $this->line('===================================================================================================');
             $this->newLine();
         }
     }

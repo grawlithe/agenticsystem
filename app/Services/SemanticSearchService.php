@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Customer;
 use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -20,6 +21,7 @@ class SemanticSearchService
             'products' => $this->searchProducts($query, $limit),
             'customers' => $this->searchCustomers($query, $limit),
             'orders' => $this->searchOrders($query, $limit),
+            'order_items' => $this->searchOrderItems($query, $limit),
         ];
     }
 
@@ -29,10 +31,12 @@ class SemanticSearchService
     public function searchProducts(string $query, int $limit = 5): Collection
     {
         return Product::query()
+            ->select('*')
             ->selectVectorDistance('embedding', $query)
             ->orderBy('embedding_distance')
             ->limit($limit)
-            ->get();
+            ->get()
+            ->makeHidden(['embedding']);
     }
 
     /**
@@ -41,10 +45,12 @@ class SemanticSearchService
     public function searchCustomers(string $query, int $limit = 5): Collection
     {
         return Customer::query()
+            ->select('*')
             ->selectVectorDistance('embedding', $query)
             ->orderBy('embedding_distance')
             ->limit($limit)
-            ->get();
+            ->get()
+            ->makeHidden(['embedding']);
     }
 
     /**
@@ -53,9 +59,25 @@ class SemanticSearchService
     public function searchOrders(string $query, int $limit = 5): Collection
     {
         return Order::query()
+            ->select('*')
             ->selectVectorDistance('embedding', $query)
             ->orderBy('embedding_distance')
             ->limit($limit)
-            ->get();
+            ->get()
+            ->makeHidden(['embedding']);
+    }
+
+    /**
+     * Search for order items.
+     */
+    public function searchOrderItems(string $query, int $limit = 5): Collection
+    {
+        return OrderItem::query()
+            ->select('*')
+            ->selectVectorDistance('embedding', $query)
+            ->orderBy('embedding_distance')
+            ->limit($limit)
+            ->get()
+            ->makeHidden(['embedding']);
     }
 }

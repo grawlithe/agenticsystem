@@ -2,6 +2,7 @@
 
 namespace App\Ai\Tools;
 
+use App\Services\SemanticSearchService;
 use Illuminate\Contracts\JsonSchema\JsonSchema;
 use Laravel\Ai\Contracts\Tool;
 use Laravel\Ai\Tools\Request;
@@ -26,12 +27,13 @@ class SearchEntities implements Tool
         $limit = $request['limit'] ?? 5;
         $entityType = $request['entity_type'] ?? 'all';
 
-        $service = app(\App\Services\SemanticSearchService::class);
+        $service = app(SemanticSearchService::class);
 
         $results = match ($entityType) {
             'products' => ['products' => $service->searchProducts($query, $limit)],
             'customers' => ['customers' => $service->searchCustomers($query, $limit)],
             'orders' => ['orders' => $service->searchOrders($query, $limit)],
+            'order_items' => ['order_items' => $service->searchOrderItems($query, $limit)],
             default => $service->searchAll($query, $limit),
         };
 
@@ -46,7 +48,7 @@ class SearchEntities implements Tool
         return [
             'query' => $schema->string()->description('The semantic search query (e.g., "winter gear", "reliable customers")')->required(),
             'limit' => $schema->integer()->description('Number of results per category')->default(5),
-            'entity_type' => $schema->string()->enum(['all', 'products', 'customers', 'orders'])->description('Specific entity type to search for')->default('all'),
+            'entity_type' => $schema->string()->enum(['all', 'products', 'customers', 'orders', 'order_items'])->description('Specific entity type to search for')->default('all'),
         ];
     }
 }

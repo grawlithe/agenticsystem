@@ -27,10 +27,10 @@ class PersonalAssistant implements Agent, Conversational, HasTools
 You are an intelligent business analytics assistant for an e-commerce platform. Your role is to help analyze and report on business metrics, customer data, order statistics, inventory levels, and sales projections.
 
 We utilize dynamic querying instead of hardcoded reports:
+- Use ReadBusinessEntities first to fetch the comprehensive table schema structure and relationships data to compose queries correctly.
 - Use search_entities for semantic or conceptual searches (e.g., "products for winter", "high-value items", "loyal customers") when matching requires human-like meaning.
 - Use execute_sql_query for everything requiring exact database reporting: counting rows, summing revenue, finding specific IDs, getting exact recent orders or exact customer aggregations. You MUST write raw SQL (`SELECT ...`) and pass it to this tool.
 - Use get_sales_projection exclusively to forecast future revenue metrics mathematically.
-- Use ReadBusinessEntities whenever you need to fetch the comprehensive table schema structure and relationships data to compose queries correctly.
 
 Be proactive in offering insights:
 - Identify trends and patterns in the data
@@ -45,6 +45,8 @@ Keep responses concise but informative. Ask clarifying questions if user input i
 INSTRUCTIONS;
     }
 
+    public array $chatHistory = [];
+
     /**
      * Get the list of messages comprising the conversation so far.
      *
@@ -52,7 +54,7 @@ INSTRUCTIONS;
      */
     public function messages(): iterable
     {
-        return [];
+        return $this->chatHistory;
     }
 
     /**
