@@ -20,7 +20,7 @@ class OrderFactory extends Factory
     {
         return [
             'customer_id' => Customer::factory(),
-            'order_number' => 'ORD-' . fake()->unique()->numerify('##########'),
+            'order_number' => 'ORD-'.fake()->unique()->numerify('##########'),
             'total_amount' => fake()->randomFloat(2, 50, 5000),
             'status' => fake()->randomElement(['pending', 'processing', 'shipped', 'delivered', 'cancelled']),
             'notes' => fake()->optional()->paragraph(),

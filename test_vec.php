@@ -1,13 +1,17 @@
 <?php
+
+use Illuminate\Contracts\Console\Kernel;
+use Illuminate\Support\Facades\Ai;
+
 require 'vendor/autoload.php';
 $app = require_once 'bootstrap/app.php';
-$kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
+$kernel = $app->make(Kernel::class);
 $kernel->bootstrap();
 try {
-    echo class_exists(Illuminate\Support\Facades\Ai::class) ? 'Ai exists. ' : 'No Ai. ';
+    echo class_exists(Ai::class) ? 'Ai exists. ' : 'No Ai. ';
     // Test if Ai class provides embeddings
-    $reflection = new ReflectionClass(Illuminate\Support\Facades\Ai::class);
+    $reflection = new ReflectionClass(Ai::class);
     echo $reflection->hasMethod('embeddings') ? 'Has embeddings method.' : 'No embeddings method.';
-} catch(\Exception $e) {
+} catch (Exception $e) {
     echo $e->getMessage();
 }

@@ -16,7 +16,7 @@ class ExecuteSqlQuery implements Tool
      */
     public function description(): Stringable|string
     {
-        return <<<DESC
+        return <<<'DESC'
 Execute a read-only SQL SELECT query to answer business questions flexibly. Always use read_business_entities tool first if you do not know the exact database schema, tables, or columns.
 Use this tool for hard aggregations (COUNT, SUM, AVG), sorting (ORDER BY), limits, or specific ID selections. 
 Always use standard SQL (SQLite/MySQL/PostgreSQL compatible) syntax. Do not output anything besides the valid SQL query string.
@@ -35,7 +35,7 @@ DESC;
         }
 
         // Basic safety check; ensure it starts with SELECT
-        if (!preg_match('/^\s*select\b/i', $query)) {
+        if (! preg_match('/^\s*select\b/i', $query)) {
             return json_encode(['error' => 'Only SELECT queries are allowed for security reasons.']);
         }
 
