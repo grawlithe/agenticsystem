@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Product extends Model
 {
     /** @use HasFactory<ProductFactory> */
-    use HasFactory, Concerns\HasEmbedding;
+    use Concerns\HasEmbedding, HasFactory;
 
     /**
      * Build a searchable text representation of the product.
@@ -40,6 +40,7 @@ class Product extends Model
         return [
             'price' => 'decimal:2',
             'status' => 'string',
+            'embedding' => 'array',
         ];
     }
 }

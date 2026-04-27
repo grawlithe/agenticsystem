@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Order extends Model
 {
     /** @use HasFactory<OrderFactory> */
-    use HasFactory, Concerns\HasEmbedding;
+    use Concerns\HasEmbedding, HasFactory;
 
     /**
      * Build a searchable text representation of the order.
@@ -55,6 +55,7 @@ class Order extends Model
             'status' => 'string',
             'shipped_at' => 'datetime',
             'delivered_at' => 'datetime',
+            'embedding' => 'array',
         ];
     }
 }

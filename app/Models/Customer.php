@@ -9,10 +9,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[Fillable(['name', 'email', 'phone', 'address', 'city', 'postal_code', 'country', 'status'])]
+
 class Customer extends Model
 {
     /** @use HasFactory<CustomerFactory> */
-    use HasFactory, Concerns\HasEmbedding;
+    use Concerns\HasEmbedding, HasFactory;
 
     /**
      * Build a searchable text representation of the customer.
@@ -39,6 +40,7 @@ class Customer extends Model
     {
         return [
             'status' => 'string',
+            'embedding' => 'array',
         ];
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Models\Concerns;
 
-use Illuminate\Support\Str;
 use Laravel\Ai\Embeddings;
 
 trait HasEmbedding

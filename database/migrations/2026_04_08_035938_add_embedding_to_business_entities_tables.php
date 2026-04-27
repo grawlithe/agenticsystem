@@ -11,21 +11,25 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->vector('embedding', 768)->nullable();
-        });
+        // Schema::table('products', function (Blueprint $table) {
+        //     $table->vector('embedding', 768)->nullable();
+        // });
+        DB::statement('ALTER TABLE products ADD embedding VECTOR(768)');
 
-        Schema::table('customers', function (Blueprint $table) {
-            $table->vector('embedding', 768)->nullable();
-        });
+        // Schema::table('customers', function (Blueprint $table) {
+        //     $table->vector('embedding', 768)->nullable();
+        // });
+        DB::statement('ALTER TABLE customers ADD embedding VECTOR(768)');
 
-        Schema::table('orders', function (Blueprint $table) {
-            $table->vector('embedding', 768)->nullable();
-        });
+        // Schema::table('orders', function (Blueprint $table) {
+        //     $table->vector('embedding', 768)->nullable();
+        // });
+        DB::statement('ALTER TABLE orders ADD embedding VECTOR(768)');
 
-        Schema::table('order_items', function (Blueprint $table) {
-            $table->vector('embedding', 768)->nullable();
-        });
+        // Schema::table('order_items', function (Blueprint $table) {
+        //     $table->vector('embedding', 768)->nullable();
+        // });
+        DB::statement('ALTER TABLE order_items ADD embedding VECTOR(768)');
     }
 
     /**
