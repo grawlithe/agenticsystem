@@ -12,7 +12,7 @@ class SurveyRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,7 +23,10 @@ class SurveyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "name" => "required|string|max:255",
+            "email" => "required|email|max:255",
+            "feedback" => "required|string",
+            "user_id" => "nullable|exists:users,id",
         ];
     }
 }
