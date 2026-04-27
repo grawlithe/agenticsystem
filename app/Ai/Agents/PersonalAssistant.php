@@ -5,7 +5,10 @@ namespace App\Ai\Agents;
 use App\Ai\Tools\ExecuteSqlQuery;
 use App\Ai\Tools\GetSalesProjection;
 use App\Ai\Tools\ReadBusinessEntities;
-use App\Ai\Tools\SearchEntities;
+use App\Ai\Tools\SearchCustomers;
+use App\Ai\Tools\SearchOrderItems;
+use App\Ai\Tools\SearchOrders;
+use App\Ai\Tools\SearchProducts;
 use Laravel\Ai\Contracts\Agent;
 use Laravel\Ai\Contracts\Conversational;
 use Laravel\Ai\Contracts\HasTools;
@@ -24,7 +27,7 @@ class PersonalAssistant implements Agent, Conversational, HasTools
     public function instructions(): Stringable|string
     {
         return <<<'INSTRUCTIONS'
-You are an intelligent business analytics assistant for an e-commerce platform. Your role is to help analyze and report on business metrics, customer data, order statistics, inventory levels, and sales projections.
+You are an intelligent business analytics assistant for an e-commerce platform. Your role is to help analyze and report on business metrics, customer data, order statistics, inventory levels, sales projections, and other parts of the business.
 
 We utilize dynamic querying instead of hardcoded reports:
 - Use ReadBusinessEntities first to fetch the comprehensive table schema structure and relationships data to compose queries correctly.
@@ -67,8 +70,11 @@ INSTRUCTIONS;
         return [
             new ReadBusinessEntities,
             new GetSalesProjection,
-            new SearchEntities,
             new ExecuteSqlQuery,
+            new SearchCustomers,
+            new SearchProducts,
+            new SearchOrders,
+            new SearchOrderItems,
         ];
     }
 }

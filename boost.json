@@ -3,8 +3,13 @@
         "copilot",
         "gemini"
     ],
-    "guidelines": true,
     "packages": [
         "laravel/ai"
+    ],
+    "skills": [
+        "laravel-best-practices",
+        "pest-testing",
+        "tailwindcss-development",
+        "ai-sdk-development"
     ]
 }
