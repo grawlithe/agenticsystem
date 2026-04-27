@@ -12,5 +12,11 @@ class Survey extends Model
         'name',
         'email',
         'feedback',
+        'user_id',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

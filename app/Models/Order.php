@@ -15,6 +15,7 @@ class Order extends Model
     /** @use HasFactory<OrderFactory> */
     use Concerns\HasEmbedding, HasFactory;
 
+    protected $hidden = ['embedding'];
     /**
      * Build a searchable text representation of the order.
      */
