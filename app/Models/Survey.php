@@ -19,4 +19,9 @@ class Survey extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function getEmailFeedbackAttribute()
+    {
+        return $this->email . " - " . $this->feedback;
+    }
 }

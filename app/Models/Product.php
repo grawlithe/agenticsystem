@@ -14,6 +14,10 @@ class Product extends Model
     /** @use HasFactory<ProductFactory> */
     use Concerns\HasEmbedding, HasFactory;
 
+    protected $hidden = [
+        'embedding',
+    ];
+
     /**
      * Build a searchable text representation of the product.
      */

@@ -26,7 +26,19 @@ class SurveyRequest extends FormRequest
             "name" => "required|string|max:255",
             "email" => "required|email|max:255",
             "feedback" => "required|string",
-            "user_id" => "nullable|exists:users,id",
+            "user_id" => "required|exists:users,id",
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            "name.required" => "Please provide your name.",
+            "email.required" => "Please provide your email address.",
+            "email.email" => "Please provide a valid email address.",
+            "feedback.required" => "Please provide your feedback.",
+            "user_id.required" => "Please provide a valid user ID.",
+            "user_id.exists" => "The selected user ID is invalid.",
         ];
     }
 }

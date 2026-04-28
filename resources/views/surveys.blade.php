@@ -1,6 +1,7 @@
 {{-- {{ $surveys }} --}}
 {{-- @foreach ($surveys as $survey)
     <p>{{ $survey->id }} - {{ $survey->user->name }} - {{ $survey->created_at }}</p>
+    <p>{{ $survey->email_feedback }}</p>
 @endforeach --}}
 
 
