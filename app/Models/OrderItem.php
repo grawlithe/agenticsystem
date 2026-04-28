@@ -14,6 +14,10 @@ class OrderItem extends Model
     /** @use HasFactory<OrderItemFactory> */
     use Concerns\HasEmbedding, HasFactory;
 
+    protected $hidden = [
+        'embedding',
+    ];
+
     /**
      * Get the order this item belongs to.
      */

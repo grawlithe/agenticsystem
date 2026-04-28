@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {   
-        DB::statement("
-            IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = 'srv')
-            BEGIN
-                EXEC('CREATE SCHEMA srv');
-            END");
+        if (env("DB_CONNECTION") === "sqlsrv") {
+            DB::statement("
+                IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = 'srv')
+                BEGIN
+                    EXEC('CREATE SCHEMA srv');
+                END");
+        }
         Schema::create('srv.survery', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -30,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('survery');
+        Schema::dropIfExists('srv.survery');
     }
 };
